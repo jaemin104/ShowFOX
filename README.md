@@ -1,19 +1,37 @@
-# showfox
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # ShowFOX
-# ShowFOX
-# ShowFOX
+### 영화는 쇼박스, 뮤지컬은 쇼팍스!
+### 뮤지컬의 모든 것을 담은 앱
+---
+
+### 팀원 소개
+- 이명규 깃헙 링크
+    - 뮤지컬 탭 구현
+
+- 김재민 깃헙 링크
+    - 배우 탭 구현
+
+- 박재현 깃헙 링크
+    - 캘린더 탭 구현
+---
+
+
+### 움짤
+탭1 - 스크롤, 북마크, 상세정보 팝업, 배우로 이동, 지도 링크, 예매 링크
+탭2 - 스크롤, 찜, 상세정보 팝업, 슬라이더, 뮤지컬로 이동
+탭3 - 시작일/마감일 확인, 원하는 뮤지컬/배우 골라보기, 개인 일정 추가
+---
+
+
+### 페이지 별 기능
+- 탭1 - 스크롤, 북마크, 상세정보 팝업, 배우로 이동, 지도 링크, 예매 링크
+- 탭2 - 스크롤, 찜, 상세정보 팝업, 슬라이더, 뮤지컬로 이동
+- 탭3 - 시작일/마감일 확인, 원하는 뮤지컬/배우 골라보기, 개인 일정 추가
+---
+
+
+### 사용된 기술
+
+---
+
+
+### apk 파일
