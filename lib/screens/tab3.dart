@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,19 +47,23 @@ class _Tab3State extends State<Tab3> {
     List<Musical>musicalsForEvent = await loadMusicalData();
     Map<DateTime, List<String>> newEvents = {};
     for(var musical in musicalsForEvent) {
-      DateTime startDate = changeStringToDateTime(musical.firstDate);
-      DateTime endDate = changeStringToDateTime(musical.lastDate);
+      DateTime firstBookDate = changeStringToDateTime(musical.firstTicketOpen.split(' ')[0]);
+      DateTime secondBookDate = changeStringToDateTime(musical.secondTicketOpen.split(' ')[0]);
+      String firstBookHour = musical.firstTicketOpen.split(' ')[1];
+      String secondBookHour = musical.secondTicketOpen.split(' ')[1];
+      String firstTerm = musical.firstTerm;
+      String secondTerm = musical.secondTerm;
       String title = musical.title;
 
-      if (!newEvents.containsKey(startDate)) {
-        newEvents[startDate] = [];
+      if (!newEvents.containsKey(firstBookDate)) {
+        newEvents[firstBookDate] = [];
       }
-      newEvents[startDate]!.add("[$title] 시작일");
+      newEvents[firstBookDate]!.add("[$title] $firstBookHour 1차 티켓 오픈 \n($firstTerm)");
 
-      if (!newEvents.containsKey(endDate)) {
-        newEvents[endDate] = [];
+      if (!newEvents.containsKey(secondBookDate)) {
+        newEvents[secondBookDate] = [];
       }
-      newEvents[endDate]!.add("[$title] 마감일");
+      newEvents[secondBookDate]!.add("[$title] $secondBookHour 2차 티켓 오픈 ($secondTerm)");
     }
     for (int i = 0;i<min(addedTitle.length, addedDate.length);i++){
       if (!newEvents.containsKey(DateTime.parse(addedDate[i]))){
@@ -448,36 +451,75 @@ class _Tab3State extends State<Tab3> {
               ),
               SizedBox(
                 height: 50,
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: CheckboxListTile(
-                    title: const Text("원하는 뮤지컬만 골라 보기"),
-                    value: buttonMusicalPressed,
-                    activeColor: Colors.orangeAccent,
-                    onChanged: (bool? value) {
-                      buttonMusicalPressed = value ?? false;
-                      getButtonState();
-                    },
-                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                    selected: buttonMusicalPressed,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 50,
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: CheckboxListTile(
-                    title: const Text("원하는 배우만 골라 보기"),
-                    value: buttonActorPressed,
-                    activeColor: Colors.orangeAccent,
-                    onChanged: (bool? value) {
-                      buttonActorPressed = value ?? false;
-                      getButtonState();
-                    },
-                    controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                    selected: buttonActorPressed,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // 찜한 뮤지컬
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  buttonMusicalPressed = !buttonMusicalPressed;
+                                  getButtonState();
+                                });
+                              },
+                              child: Icon(
+                                buttonMusicalPressed ? Icons.bookmark : Icons.bookmark_border,
+                                color: buttonMusicalPressed ? Colors.red : Colors.grey,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  buttonMusicalPressed = !buttonMusicalPressed;
+                                  getButtonState();
+                                });
+                              },
+                              child: const Text("찜한 뮤지컬"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    // 찜한 배우
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  buttonActorPressed = !buttonActorPressed;
+                                  getButtonState();
+                                });
+                              },
+                              child: Icon(
+                                buttonActorPressed ? Icons.favorite : Icons.favorite_border,
+                                color: buttonActorPressed ? Colors.red : Colors.grey,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  buttonActorPressed = !buttonActorPressed;
+                                  getButtonState();
+                                });
+                              },
+                              child: const Text("찜한 배우"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -494,16 +536,17 @@ class _Tab3State extends State<Tab3> {
                             background: Container(color: Colors.red,),
                             direction: DismissDirection.startToEnd,
                             onDismissed: (direction){
+                              var valueToRemove = value[index];
                               final dateIndex = addedDate.indexOf(_selectedDay!.toIso8601String());
-                              final titleIndex = addedTitle.indexOf(value[index]);
+                              final titleIndex = addedTitle.indexOf(valueToRemove);
                               if (dateIndex != -1 && titleIndex != -1 && addedDate.contains(_selectedDay!.toIso8601String()) && addedTitle.contains(value[index])) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('${value[index]}이(가) 삭제되었습니다.')),
+                                  SnackBar(content: Text('${value[index]} 삭제됨')),
                                 );
 
                                 final musicalAndActorEventList = musicalAndActorEvents[_selectedDay!];
                                 if (musicalAndActorEventList != null) {
-                                  musicalAndActorEventList.remove(value[index]);
+                                  musicalAndActorEventList.remove(valueToRemove);
                                   if (musicalAndActorEventList.isEmpty) {
                                     musicalAndActorEvents.remove(_selectedDay!);
                                   } else {
@@ -513,7 +556,7 @@ class _Tab3State extends State<Tab3> {
 
                                 final actorEventList = actorEvents[_selectedDay!];
                                 if (actorEventList != null) {
-                                  actorEventList.remove(value[index]);
+                                  actorEventList.remove(valueToRemove);
                                   if (actorEventList.isEmpty) {
                                     actorEvents.remove(_selectedDay!);
                                   } else {
@@ -523,7 +566,7 @@ class _Tab3State extends State<Tab3> {
 
                                 final musicalEventList = musicalEvents[_selectedDay!];
                                 if (musicalEventList != null) {
-                                  musicalEventList.remove(value[index]);
+                                  musicalEventList.remove(valueToRemove);
                                   if (musicalEventList.isEmpty) {
                                     musicalEvents.remove(_selectedDay!);
                                   } else {
@@ -533,7 +576,7 @@ class _Tab3State extends State<Tab3> {
 
                                 final allEventList = allEvents[_selectedDay!];
                                 if (allEventList != null) {
-                                  allEventList.remove(value[index]);
+                                  allEventList.remove(valueToRemove);
                                   if (allEventList.isEmpty) {
                                     allEvents.remove(_selectedDay!);
                                   } else {
@@ -542,7 +585,7 @@ class _Tab3State extends State<Tab3> {
                                 }
 
                                 addedDate.removeAt(addedDate.indexOf(_selectedDay!.toIso8601String()));
-                                addedTitle.removeAt(addedTitle.indexOf(value[index]));
+                                addedTitle.removeAt(addedTitle.indexOf(valueToRemove));
 
                                 prefs.setStringList('userAddedDate', addedDate);
                                 prefs.setStringList('userAddedTitle', addedTitle);
@@ -554,6 +597,10 @@ class _Tab3State extends State<Tab3> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text('존재하는 뮤지컬 일정은 삭제할 수 없습니다.')),
                                 );
+
+                                setState(() {
+                                  _selectedEvents.value = _getEventsForDay(_selectedDay!);
+                                });
                               }
                             },
                             child: ListTile(
