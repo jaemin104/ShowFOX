@@ -1,19 +1,49 @@
-# showfox
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # ShowFOX
-# ShowFOX
-# ShowFOX
+### 영화는 쇼박스, 뮤지컬은 쇼팍스!
+### 뮤지컬의 모든 것을 담은 앱
+---
+
+### 팀원 소개
+- 이명규 깃헙 링크
+    - KAIST 전산학부 ?학번
+    - 뮤지컬 탭 구현
+
+- 김재민 깃헙 링크
+    - 한양대학교 컴퓨터소프트웨어학부 23학번
+    - 배우 탭 구현
+
+- 박재현 깃헙 링크
+    - DGIST ~~
+    - 캘린더 탭 구현
+---
+
+
+### 페이지 별 기능
+- 탭1 - 스크롤, 북마크, 상세정보 팝업, 배우로 이동, 지도 링크, 예매 링크
+  - 뮤지컬 리스트가 가로로 스크롤 돼요.
+  - 관심 있는 뮤지컬에 북마크를 할 수 있어요.
+  - 뮤지컬 포스터를 클릭하면 상세 정보 팝업이 떠요.
+  - 상세정보에 있는 배우 이름을 클릭하면 해당 배우 상세정보 팝업으로 이동해요.
+  - '지도보기' 버튼을 누르면 공연 장소를 네이버 지도로 볼 수 있어요.
+  - '예매하기' 버튼을 누르면 해당 뮤지컬을 예매할 수 있는 인터파크티켓 페이지로 이동해요.
+  
+- 탭2 - 스크롤, 찜, 상세정보 팝업, 슬라이더, 뮤지컬로 이동
+  - 배우 리스트가 세로로 스크롤 돼요.
+  - 관심 있는 배우에 찜을 할 수 있어요.
+  - 배우 사진을 클릭하면 상세 정보 팝업이 떠요.
+  - 배우 사진들이 자동 슬라이드 되고, 직접 슬라이드를 넘길 수도 있어요.
+  - 상세정보에 있는 작품을 클릭하면 해당 뮤지컬 상세정보 팝업으로 이동해요.
+  
+- 탭3 - 시작일/마감일 확인, 원하는 뮤지컬/배우 골라보기, 개인 일정 추가
+  - 캘린더에 뮤지컬들의 공연 시작일과 마감일이 귀여운 여우 아이콘으로 표시되어 있어요.
+  - '원하는 뮤지컬/배우만 골라 보기'에 체크하면 북마크한 뮤지컬이나 찜한 배우가 나오는 뮤지컬만 볼 수 있어요.
+  - '+' 버튼을 누르면 직접 일정을 추가할 수 있어요. 자신이 티켓팅한 공연 날짜 등을 표시해 둘 수 있겠죠?
+---
+
+
+### 사용된 기술
+
+---
+
+
+### apk 파일
